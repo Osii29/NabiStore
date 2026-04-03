@@ -117,32 +117,7 @@ function processPayment() {
   emptyCart();
   toggleCart();
 }
-// Cierra el modal
-function closeModal() {
-  document.getElementById('dynamicModal').classList.remove('show');
-}
 
-// Evento para agregar el producto con su sabor al carrito
-document.getElementById('add-to-cart-btn').addEventListener('click', () => {
-  const selectedFlavor = document.getElementById('flavor-select').value;
-  const finalName = `${currentProduct.name} (${selectedFlavor})`;
-  
-  cart.push({ name: finalName, price: currentProduct.price });
-  updateCart();
-  closeModal();
-  
-  // Pequeño feedback visual en el botón del carrito
-  const btn = document.querySelector('.cart-toggle');
-  btn.style.transform = 'scale(1.1)';
-  setTimeout(() => btn.style.transform = 'scale(1)', 200);
-});
-
-// Renderiza los elementos del carrito en el HTML
-function updateCart() {
-  const cartItems = document.getElementById('cart-items');
-  const cartTotal = document.getElementById('cart-total');
-  const cartCount = document.getElementById('cart-count');
-  
   cartItems.innerHTML = '';
   let total = 0;
 
@@ -159,25 +134,6 @@ function updateCart() {
   cartTotal.innerHTML = `<strong>Total: $${total} MXN</strong>`;
   cartCount.innerText = `(${cart.length})`;
 }
-
-// Elimina un ítem específico del carrito
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCart();
-}
-
-// Vacía todo el carrito
-function emptyCart() {
-  cart = [];
-  updateCart();
-}
-
-// Simula el procesamiento del pedido
-function processPayment() {
-  if (cart.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
 
   const cp = document.getElementById('postal-code').value;
   const street = document.getElementById('street').value;
