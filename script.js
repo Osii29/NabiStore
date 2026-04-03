@@ -108,46 +108,31 @@ function emptyCart() {
 }
 
 function processPayment() {
-  if (cart.length === 0) return alert("Carrito vacío");
-  const street = document.getElementById('street').value;
-  if (!street) return alert("Faltan datos de envío");
-  
-  const total = cart.reduce((a, b) => a + b.price, 0);
-  alert(`Pedido confirmado para Nabi Store.\nEnvío a: ${street}\nTotal: $${total} MXN.`);
-  emptyCart();
-  toggleCart();
-}
+  // 1. Verificamos que haya algo en el carrito
+  if (cart.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
 
-  cartItems.innerHTML = '';
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    total += item.price;
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <span>${item.name}</span> 
-      <span>$${item.price} <button class="remove" onclick="removeFromCart(${index})">X</button></span>
-    `;
-    cartItems.appendChild(li);
-  });
-
-  cartTotal.innerHTML = `<strong>Total: $${total} MXN</strong>`;
-  cartCount.innerText = `(${cart.length})`;
-}
-
+  // 2. Extraemos los valores de los inputs
   const cp = document.getElementById('postal-code').value;
   const street = document.getElementById('street').value;
-  const method = document.getElementById('payment-method').options[document.getElementById('payment-method').selectedIndex].text;
+  const paymentSelect = document.getElementById('payment-method');
+  const method = paymentSelect.options[paymentSelect.selectedIndex].text;
 
+  // 3. Validamos que no falten datos importantes
   if (!cp || !street) {
     alert("Completa tu dirección de envío por favor.");
     return;
   }
 
-  // Calcula el total nuevamente para el mensaje
+  // 4. Calculamos el total
   const total = cart.reduce((acc, item) => acc + item.price, 0);
 
+  // 5. Armamos el mensaje final personalizado
   alert(`¡Pedido confirmado para ${street}, CP ${cp}!\nMétodo: ${method}\nTotal: $${total} MXN.`);
+  
+  // 6. Limpiamos todo
   emptyCart();
   toggleCart();
 }
