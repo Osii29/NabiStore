@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nabi Store - Catálogo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="imagen_logo_nabistore.png" alt="Logo de Nabi Store" class="logo" />
+      <h1>Nabi Store</h1>
+    </div>
+    <nav>
+      <button class="cart-toggle" onclick="toggleCart()"> Carrito <span id="cart-count">(0)</span></button>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>El sabor de Asia que vuela a tu puerta</h2>
+  </div>
+
+  <div class="container" id="productos">
+  <h2>Nuestro Catálogo</h2>
+  <div class="products">
+
+    <div class="product-card">
+      <img src="imagen_buldak.png" alt="Buldak Ramen">
+      <h3>Buldak Ramen</h3>
+      <p class="price">$45 MXN</p>
+      <button onclick="openProductModal('Buldak Ramen', 45, [
+        'Original', '2x Spicy', '3x Spicy', 'Carbonara', 'Crema Carbonara', 
+        'Queso', 'Cuatro quesos', 'Jjajang', 'Habanero Limón', 'Kimchi', 
+        'Curry', 'Yakisoba', 'Rosé', 'Lovely Hot'
+      ])">Seleccionar Sabor</button>
+    </div>
+
+    <div class="product-card">
+      <img src="imagen_soju.png" alt="Soju">
+      <h3>Soju (360 ml)</h3>
+      <p class="price">$80 MXN</p>
+      <button onclick="openProductModal('Soju', 80, [
+        'Fresa', 'Limón', 'Uva verde', 'Mango', 'Durazno', 'Lichi', 'Toronja', 
+        'Piña', 'Sandía', 'Ciruela', 'Manzana', 'Arándano', 'Yogurt', 'Original'
+      ])">Seleccionar Sabor</button>
+    </div>
+
+    <div class="product-card">
+      <img src="imagen_pocky.png" alt="Pocky">
+      <h3>Pocky</h3>
+      <p class="price">$60 MXN</p>
+      <button onclick="openProductModal('Pocky', 60, [
+        'Chocolate', 'Fresa', 'Cookies and Cream', 'Chocolate Blanco', 'Matcha', 
+        'ChocoBanana', 'Mango', 'Tiramisú', 'Coco', 'Almendra', 'Sakura', 'Menta'
+      ])">Seleccionar Sabor</button>
+    </div>
+
+    <div class="product-card">
+      <img src="imagen_bebidas.png" alt="Bebidas">
+      <h3>Bebidas Asiáticas</h3>
+      <p class="price">$30 MXN</p>
+      <button onclick="openProductModal('Bebida', 30, {
+        'Marcas Varias': ['Remune', 'Calpis', 'Mitsuya Cider', 'Melon Soda', 'Milis', 'Chilsung Cider', 'Sac Sac', 'Ocean Bomb', 'Genki Forest', 'Hey Song', 'Sarsaparilla'],
+        'Coca-Cola': ['Durazno', 'Fresa', 'Manzana', 'Plus', 'Clear'],
+        'Fanta': ['Melon Soda', 'Lychee', 'White Peach'],
+        'Pepsi': ['Caramel Punch', 'White', 'Sakura']
+      })">Ver Variedad</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="dynamicModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">×</span>
+    <h2 id="modal-product-title">Producto</h2>
+    
+    <div id="category-container" style="display:none;">
+      <label for="category-select">Selecciona Marca:</label>
+      <select id="category-select" onchange="updateFlavorOptions()"></select>
+    </div>
+
+    <label for="flavor-select">Selecciona Sabor:</label>
+    <select id="flavor-select"></select>
+    
+    <button id="add-to-cart-btn">Agregar al Carrito</button>
+  </div>
+</div>
+
+  <div class="container contact" id="contacto">
+    <h2>¿Dudas sobre tu pedido?</h2>
+    <form onsubmit="event.preventDefault(); alert('Mensaje enviado. ¡Te contactaremos pronto!');">
+      <input type="text" placeholder="Tu nombre" required>
+      <input type="email" placeholder="Tu correo electrónico" required>
+      <textarea rows="4" placeholder="Escribe tu duda aquí..."></textarea>
+      <button type="submit">Enviar Mensaje</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>Síguenos en:
+      <a href="https://www.instagram.com/nabistore.oficial?igsh=MWd0bW54cDRnNmlzNw==">Instagram (@NABISTORE.OFICIAL)</a> |
+      <a href="#">www.nabistore.com</a>
+    </p>
+    <p>© 2026 Nabi Store</p>
+  </footer>
+
+  <div id="sidebar-cart">
+    <div class="cart-header">
+      <h2>Tu Pedido</h2>
+      <button class="cart-close" onclick="toggleCart()">×</button>
+    </div>
+    
+    <ul id="cart-items"></ul>
+    <p id="cart-total"><strong>Total: $0 MXN</strong></p>
+    <button style="background-color: #ff4d4d;" onclick="emptyCart()">Vaciar carrito</button>
+
+    <div id="payment-section">
+      <h3>Datos de Envío</h3>
+      <input type="text" id="street" placeholder="Calle y número" required>
+      <input type="text" id="neighborhood" placeholder="Colonia" required>
+      <input type="text" id="postal-code" placeholder="Código postal" required>
+      
+      <h3>Método de Pago</h3>
+      <select id="payment-method">
+        <option value="tarjeta">Pago con Tarjeta</option>
+        <option value="efectivo">Pago contra entrega (Efectivo)</option>
+      </select>
+    
+      <button onclick="processPayment()">Confirmar Pedido</button>
+    </div>
+  </div>
+
+  <div id="dynamicModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">×</span>
+      <h2 id="modal-product-title">Producto</h2>
+      <label for="flavor-select">Elige tu versión:</label>
+      <select id="flavor-select"></select>
+      <button id="add-to-cart-btn">Agregar al Carrito</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
